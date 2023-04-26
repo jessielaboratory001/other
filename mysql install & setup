@@ -1,0 +1,47 @@
+▲download mysql壓縮檔，版本 linux Ubuntu 20.4 和解壓縮 
+wget https://dev.mysql.com/downloads/file/?id=518266
+mkdir mysqltar
+tar xvf 壓縮檔檔名.tar -->得到.deb
+
+sudo dpkg -i mysql-community-server-core_8.0.33-1ubuntu20.04_amd64.deb
+sudo apt-get update
+sudo apt-get install mysql-server
+sudo dpkg -i mysql-community-client-plugins_8.0.33-1ubuntu20.04_amd64.deb
+sudo dpkg -i mysql-community-client-core_8.0.33-1ubuntu20.04_amd64.deb
+
+查詢mysql狀態
+sudo netstat -tap | grep mysql
+mysqld will log errors to /var/log/mysql/error.log
+
+▲遠端登入
+#開防火牆---Ubuntu based GNU/Linux 上的防火牆 (ufw) 基本設定
+sudo apt-get install ufw
+sudo ufw enable
+sudo ufw allow 3306
+sudo ufw allow 22/tcp
+sudo ufw status
+
+#開防火牆---GCE google compute engine
+compute engine 防火牆開3306
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+將裡面的bind-address標記起來
+#bind-address           = 127.0.0.1
+
+▲登入
+sudo mysql -u root
+show global variables like 'port';
+
+#檢視密碼的長度要求:
+SHOW VARIABLES LIKE 'validate_password%';
+
+#新增user授權,host=%
+
+▲建資料庫和Table
+#匯入csv檔時
+show global variables like '%secure_file_priv%';
+
+將csv放到show出來的value-->  sudo mv plants.csv /var/lib/mysql-files/
+
+LOAD DATA INFILE '/var/lib/mysql-files/plants.csv' INTO TABLE plants FIELDS TERMINATED BY ','
+ENCLOSED BY '"' IGNORE 1 ROWS;
