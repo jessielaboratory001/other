@@ -1,0 +1,112 @@
+#功能：使用者輸入介面
+
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+
+fontsize = ('Arial', 14)
+bgcolor = '#FCC9DB'
+labwidth = 13
+
+#-----輸入後驗證-----
+def validate01(P):
+    if len(P) == 0:
+        messagebox.showwarning('歌名輸入錯誤', '不可空白！')
+        return False
+    elif len(P) <= 10:
+        return True
+    else:
+        messagebox.showwarning('歌名輸入錯誤','最多可輸入10個字！')
+        return False
+
+def validate02(P):
+    if str.isdigit(P):
+        return True
+    else:
+        messagebox.showwarning('字數輸入錯誤','請輸入數字！')
+        return False
+
+def vcmderr01():
+    entsongnm.focus_set()
+def vcmderr02():
+    entamount.focus_set()
+
+def chk():
+    notdigit = 0
+    for i in range(0, entvaramount.get()):
+        if not str.isdigit(globals()['entnum' + str(i + 1)].get()):
+            notdigit += 1
+
+    if notdigit > 0:
+        messagebox.showwarning('字數輸入錯誤','請輸入數字！')
+        return False
+    else:
+        pass #執行爬蟲的程式
+
+def showent():   #顯示輸入每句歌詞的字數
+    global rowrec
+    if entvaramount.get() == 0:
+        messagebox.showwarning('字數輸入錯誤', '不可為0！')
+        return False
+
+    entamount.configure(state="disabled")
+    btnsure.configure(state="disabled")
+    for i in range(0, entvaramount.get()):
+        globals()['entnumval' + str(i+1)] = tk.StringVar()
+        globals()['labnum' + str(i+1)] = tk.Label(win, text='第{:2}句字數'.format(i+1), bg=bgcolor,width=labwidth,font = fontsize)
+        globals()['labnum' + str(i+1)].grid(row=rowrec, column=i%5,sticky='w')
+        globals()['entnum' + str(i+1)] = tk.Entry(win, textvariable = globals()['entnumval' + str(i + 1)], width =2,font = fontsize)
+        globals()['entnum' + str(i+1)].grid(row=rowrec, column=i%5,sticky='e')
+
+        if (i > 0) and (((i+1) % 5) == 0):
+            rowrec += 1
+    rowrec += 1
+    btnsure2 = tk.Button(win, text="開始創作", command=chk, font = fontsize)
+    btnsure2.grid(row=rowrec, column=0,stick = 'w')  # sticky = 'nswe'
+    rowrec += 1
+
+def showlyric():
+    labsongnm = tk.Label(win, text='完成創作的歌詞如下：', bg=bgcolor, font = fontsize)
+    labsongnm.grid(row=rowrec, column=0, sticky='w')
+    rowrec += 1
+
+    txtlyric = tk.text.insert(tk.END, '尚未完成')
+    txtlyric.configure(font = fontsize)
+    txtlyric.grid(row=rowrec,column=0)
+    rowrec += 1
+
+
+win = tk.Tk()
+win.title('作詞家')      # 視窗標題
+w = 900    # 視窗寬
+h = 500     # 視窗高
+x = (win.winfo_screenwidth() - w) / 2   # 視窗左上角x軸位置
+y = (win.winfo_screenheight() - h ) / 2 # 視窗左上角Y軸位置
+win.geometry("%dx%d+%d+%d" % (w,h,x,y))
+win.configure(bg = bgcolor) # 視窗背景顏色
+win.iconbitmap('lyricist.ico')
+
+global rowrec
+rowrec = 0
+entvarsongnm = tk.StringVar()
+labsongnm=tk.Label(win, text='請輸入歌名', bg=bgcolor,width=labwidth,font = fontsize)
+labsongnm.grid(row=rowrec, column=0,sticky='w')
+vcmd = (win.register(validate01), '%P')
+entsongnm = tk.Entry(win, textvariable=entvarsongnm, width=20, validate='focusout', validatecommand=
+vcmd, invalidcommand=vcmderr01,font = fontsize)
+entsongnm.grid(row=rowrec, column=1,sticky='w')
+rowrec += 1
+entsongnm.focus_set()
+
+entvaramount = tk.IntVar()
+labamount=tk.Label(win,text='請輸入總句數',bg = bgcolor,width=labwidth,font = fontsize)
+labamount.grid(row=rowrec,column=0,sticky='w')
+vcmd = (win.register(validate02), '%P')
+entamount = tk.Entry(win, textvariable = entvaramount, width =2, validate='focusout', validatecommand=
+vcmd, invalidcommand=vcmderr02,font = fontsize)
+entamount.grid(row=rowrec,column=1,sticky='w')
+btnsure = tk.Button(win,text="確定",command=showent,font = fontsize)
+btnsure.grid(row=rowrec,column=1,sticky='e') #sticky = 'nswe'
+rowrec += 1
+
+win.mainloop()
