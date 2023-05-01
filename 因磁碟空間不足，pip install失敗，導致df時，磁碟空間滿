@@ -1,0 +1,15 @@
+1.清除緩衝區
+輸入cd後，會到/home/使用者帳號的目錄
+cd .cache
+找出哪些檔案或目錄的緩存過大   sudo du -hs * | sort -h
+rm -rf 目錄名稱或檔案名稱
+
+2.清除 Google Container Registry 上的映像檔
+#Delete the container image for version 1.0.0 of the teamwork-ai
+gcloud container images delete gcr.io/${GOOGLE_CLOUD_PROJECT}/ncu-bot-dev:0.0.1
+....
+
+3.清除 Cloud logging
+gcloud logging logs list
+gcloud logging logs delete projects/gcp-ai-2003-jessie/logs/line_bot_event
+....
