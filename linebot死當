@@ -1,0 +1,16 @@
+【Line】
+◆進入LINE Developers網頁--> Console --> 登入 --> Providers --> Channels --> 進入當機的Channels 
+◆注意此步驟會讓舊的Channel secret值失效，無法找回舊的值。頁籤 Basic settings --> Channel secret 行尾有ISSUE，點ISSUE後，有警告訊息出現，會變更為新值，將新值設定給程式。
+◆注意此步驟會讓舊的Channel access token值失效，無法找回舊的值。頁籤 Messaging API --> Channel access token 行尾有REISSUE，點REISSUE後，有訊息出現可輸入失效時間，會變更為新值，將新值設定給程式。
+◆將Use webhook 關掉重開。
+◆若要看錯誤訊息，可以將下面的 Error statistics aggregation 開啟，然後到上面頁籤 Statistics查看。將下拉式選單的Messages sent切換為Errors。統計圖下面有詳細的錯誤訊息。
+
+【GCE VM】
+◆查看log的錯誤訊息
+cd; tail -f testteam/testteam.log
+tail -f /var/log/nginx/access.log
+tail -f /var/log/nginx/error.log
+解決問題
+◆sudo apt-get update
+sudo apt-get install libgl1-mesa-glx
+◆VM重啟
