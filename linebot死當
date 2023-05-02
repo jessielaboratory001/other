@@ -11,6 +11,7 @@ cd; tail -f testteam/testteam.log
 tail -f /var/log/nginx/access.log
 tail -f /var/log/nginx/error.log
 解決問題
-◆sudo apt-get update
+◆若tail -f app執行.log，內容有出現「--- no python application found, check your startup logs for errors ---」，則執行下列步驟：
+sudo apt-get update
 sudo apt-get install libgl1-mesa-glx
 ◆VM重啟
